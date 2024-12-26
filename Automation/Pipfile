@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 openai-whisper = "*"
 python-dotenv = "*"
+langchain-community = "*"
+langchain-cohere = "*"
 
 [dev-packages]
 

@@ -9,15 +9,13 @@ from langchain_community.llms import Cohere
 
 import os
 import pvporcupine
-from langchain_cohere.llms import Cohere
-from langchain_core.prompts import ChatPromptTemplate
+
 from langchain_core.output_parsers import StrOutputParser
-from dotenv import load_dotenv
-import streamlit as st
+
 from langchain_cohere import ChatCohere
 import os
-import speech_recognition as sr
 
+from langchain_core.prompts import ChatPromptTemplate
 
 scheduled_tasks = ["Message 1", "Message 2", "Message 3"]
 from dotenv import load_dotenv
