@@ -1,9 +1,9 @@
-from Activation import Voice_Assistant
-import threading
-import tkinter as tk
-from tkinter import ttk
+from appscript import app
 
-# Create the main window
+reminders = app('Reminders')
+all_lists = reminders.lists()
 
-Alexa = Voice_Assistant()
-Alexa.start()
+for reminder_list in all_lists:
+    print(f"List: {reminder_list.name()}")
+    for reminder in reminder_list.reminders():
+        print(f"  Reminder: {reminder.name()} (Completed: {reminder.completed()})")

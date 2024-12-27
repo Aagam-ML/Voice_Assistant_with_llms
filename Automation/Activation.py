@@ -4,6 +4,7 @@ import struct
 import tkinter as tk
 from tkinter import ttk
 import ast
+from New_Activation import add_reminder
 
 from langchain_community.llms import Cohere
 
@@ -71,6 +72,8 @@ class Voice_Assistant():
                         print(f"You said: {text}")
                         if new_text == "stop":
                             self.MyLLM(text)
+                            for taski in task:
+                                add_reminder("Personal",taski)
                             self.generate()
                             break
                     except sr.UnknownValueError:
@@ -154,7 +157,7 @@ class Voice_Assistant():
         output_parser = StrOutputParser()
         chain = prompt | llm | output_parser
 
-        new_tasks =  chain.invoke({"question": text + "find the task and give and return it in the form of python array ex. ['a', 'b']"})
+        new_tasks =  chain.invoke({"question": text + "find the task and give and return it in the form of python array ex. ['a', 'b'], if there more than one question in it append the items do not make dictioniary"})
         print(new_tasks)
         new_tasks = ast.literal_eval(new_tasks)
         for taski in new_tasks:
@@ -164,6 +167,5 @@ class Voice_Assistant():
 
 Alexa = Voice_Assistant()
 Alexa.start()
-
 
 

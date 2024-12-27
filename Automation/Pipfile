@@ -8,6 +8,8 @@ openai-whisper = "*"
 python-dotenv = "*"
 langchain-community = "*"
 langchain-cohere = "*"
+pyobjc = "*"
+appscript = "*"
 
 [dev-packages]
 
