@@ -30,6 +30,17 @@ def add_reminder(list_name, reminder_name):
         print(f"Error: {result.stderr}")
 
 # Example usage
+def remove_all_reminders(list_name):
+    script = f'''
+    tell application "Reminders"
+        set reminderList to first list whose name is "{list_name}"
+        delete reminders of reminderList
+    end tell
+    '''
+    result = subprocess.run(['osascript', '-e', script], capture_output=True, text=True)
+    if result.returncode == 0:
+        print(f"Successfully removed all reminders from the '{list_name}' list.")
+    else:
+        print(f"Error: {result.stderr}")
 
-
-
+remove_all_reminders("Personal")

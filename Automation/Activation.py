@@ -5,45 +5,37 @@ import tkinter as tk
 from tkinter import ttk
 import ast
 from New_Activation import add_reminder
-
 from langchain_community.llms import Cohere
-
 import os
-import pvporcupine
-
 from langchain_core.output_parsers import StrOutputParser
-
 from langchain_cohere import ChatCohere
-import os
-
 from langchain_core.prompts import ChatPromptTemplate
-
-scheduled_tasks = ["Message 1", "Message 2", "Message 3"]
 from dotenv import load_dotenv
 import speech_recognition as sr
+
+
 load_dotenv()
-# Initialize Porcupine with your AccessKey and wake words
 access_key = os.getenv("pvporcupine_APi_KEY")
 keywords = ["jarvis", "computer"]
 handle = pvporcupine.create(access_key=access_key, keywords=keywords)
-
 os.environ["COHERE_API_KEY"] = os.getenv("COHERE_API_KEY")
 ## Langsmith
 os.environ["LANGCHAIN_TRACING_V2"]="True"
 os.environ["LANGCHAIN_API_KEY"]=os.getenv("LANGCHAIN_API_KEY")
-
-
 LANGCHAIN_ENDPOINT="https://api.smith.langchain.com"
 LANGCHAIN_PROJECT="Chatbot"
 
 # Set up audio stream from microphone
 task=[]
 class Voice_Assistant():
-    def __init__(self):
+    def __init__(self,task):
         self.pa = pyaudio.PyAudio()
         self.Mic = False
+        self.task = task
 
-
+    def clear_memory(self):
+        self.task = []
+        print(self.task)
     def toggle_stream_on(self):
         audio_stream = self.pa.open(rate=handle.sample_rate, channels=1, format=pyaudio.paInt16,
                                input=True, frames_per_buffer=handle.frame_length)
@@ -72,10 +64,13 @@ class Voice_Assistant():
                         print(f"You said: {text}")
                         if new_text == "stop":
                             self.MyLLM(text)
-                            for taski in task:
+                        elif new_text=="done":
+                            for taski in self.task:
                                 add_reminder("Personal",taski)
-                            self.generate()
                             break
+                        elif new_text == "clean":
+                            self.clear_memory()
+
                     except sr.UnknownValueError:
                         print("Sorry, I couldn't understand that.")
                     except sr.RequestError as e:
@@ -106,7 +101,6 @@ class Voice_Assistant():
     def start(self):
         global Mic
         Mic = True
-
         self.toggle_stream_on()
         self.wake_up()
 
@@ -129,7 +123,7 @@ class Voice_Assistant():
         tree.heading("Value", text="Array Values")
 
         # Insert each element from the array into the table
-        for item in task:
+        for item in self.task:
             tree.insert("", "end", values=(item,))
 
         # Pack the Treeview widget
@@ -144,6 +138,7 @@ class Voice_Assistant():
         LANGCHAIN_ENDPOINT = "https://api.smith.langchain.com"
         LANGCHAIN_PROJECT = "Chatbot"
 
+
         ##Prompt Template
         prompt = ChatPromptTemplate.from_messages(
             [
@@ -157,15 +152,14 @@ class Voice_Assistant():
         output_parser = StrOutputParser()
         chain = prompt | llm | output_parser
 
-        new_tasks =  chain.invoke({"question": text + "find the task and give and return it in the form of python array ex. ['a', 'b'], if there more than one question in it append the items do not make dictioniary"})
+        new_tasks =  chain.invoke({"question": text + "find the task and give and return it in the form of python array ex. ['a', 'b'], if there more than one question in it append the items do not make dictioniary"+ str(self.task) +" these are previous task and you update in them"})
         print(new_tasks)
         new_tasks = ast.literal_eval(new_tasks)
-        for taski in new_tasks:
-            task.append(taski)
+        self.task = new_tasks
 
 
 
-Alexa = Voice_Assistant()
+Alexa = Voice_Assistant(task)
 Alexa.start()
 
 
