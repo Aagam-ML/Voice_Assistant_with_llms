@@ -160,7 +160,7 @@ class Voice_Assistant():
 
 
 Alexa = Voice_Assistant(task)
-
+Alexa.start()
 
 
 
