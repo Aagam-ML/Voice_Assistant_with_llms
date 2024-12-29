@@ -19,7 +19,13 @@ def get_reminders():
 def add_reminder(list_name, reminder_name):
     script = f'''
     tell application "Reminders"
+        if not (exists list "{list_name}") then
+            -- Create the list if it doesn't exist
+            make new list with properties {{name:"{list_name}"}}
+        end if
+        -- Get the reference to the list
         set reminderList to first list whose name is "{list_name}"
+        -- Add the reminder to the list
         make new reminder at end of reminders of reminderList with properties {{name:"{reminder_name}"}}
     end tell
     '''
@@ -28,6 +34,7 @@ def add_reminder(list_name, reminder_name):
         print(f"Successfully added '{reminder_name}' to the '{list_name}' list.")
     else:
         print(f"Error: {result.stderr}")
+
 
 # Example usage
 def remove_all_reminders(list_name):

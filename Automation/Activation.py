@@ -64,9 +64,13 @@ class Voice_Assistant():
                         print(f"You said: {text}")
                         if new_text == "stop":
                             self.MyLLM(text)
-                        elif new_text=="done":
-                            for taski in self.task:
-                                add_reminder("Personal",taski)
+                        elif new_text=="pizza":
+                            print(self.task)
+                            for key, value in self.task.items():
+                                print(f"Key: {key}")
+                                for item in value:
+                                    print(f"  Value: {item}")
+                                    add_reminder(key,item)
                             break
                         elif new_text == "clean":
                             self.clear_memory()
@@ -142,7 +146,7 @@ class Voice_Assistant():
         ##Prompt Template
         prompt = ChatPromptTemplate.from_messages(
             [
-                ("system", "just find the task and written python array no extra information"),
+                ("system", "just find the task and written python dictionary no extra information"),
                 ("user", "Question:{question}")
             ]
         )
@@ -152,7 +156,7 @@ class Voice_Assistant():
         output_parser = StrOutputParser()
         chain = prompt | llm | output_parser
 
-        new_tasks =  chain.invoke({"question": text + "here you are getting a text find out the task out of it and return python dictionary, also divide them into category if needed"+ str(self.task) +" these are previous task and you update in them and if its dictionary also give specific name to category or list"})
+        new_tasks =  chain.invoke({"question": text + "here you are getting a text find out the task out of it and always return in one single python dictionary, also divide them into category if needed"+ str(self.task) +" these are previous task and you update in them and if its dictionary also give specific name to category or list"})
         print(new_tasks)
         new_tasks = ast.literal_eval(new_tasks)
         self.task = new_tasks
