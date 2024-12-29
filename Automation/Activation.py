@@ -26,7 +26,7 @@ LANGCHAIN_ENDPOINT="https://api.smith.langchain.com"
 LANGCHAIN_PROJECT="Chatbot"
 
 # Set up audio stream from microphone
-task=[]
+task={}
 class Voice_Assistant():
     def __init__(self,task):
         self.pa = pyaudio.PyAudio()
@@ -34,7 +34,7 @@ class Voice_Assistant():
         self.task = task
 
     def clear_memory(self):
-        self.task = []
+        self.task = {}
         print(self.task)
     def toggle_stream_on(self):
         audio_stream = self.pa.open(rate=handle.sample_rate, channels=1, format=pyaudio.paInt16,
@@ -142,7 +142,7 @@ class Voice_Assistant():
         ##Prompt Template
         prompt = ChatPromptTemplate.from_messages(
             [
-                ("system", "just afind the task and written python array no extra information"),
+                ("system", "just find the task and written python array no extra information"),
                 ("user", "Question:{question}")
             ]
         )
@@ -152,7 +152,7 @@ class Voice_Assistant():
         output_parser = StrOutputParser()
         chain = prompt | llm | output_parser
 
-        new_tasks =  chain.invoke({"question": text + "find the task and give and return it in the form of python array ex. ['a', 'b'], if there more than one question in it append the items do not make dictioniary"+ str(self.task) +" these are previous task and you update in them"})
+        new_tasks =  chain.invoke({"question": text + "here you are getting a text find out the task out of it and return python dictionary, also divide them into category if needed"+ str(self.task) +" these are previous task and you update in them and if its dictionary also give specific name to category or list"})
         print(new_tasks)
         new_tasks = ast.literal_eval(new_tasks)
         self.task = new_tasks
