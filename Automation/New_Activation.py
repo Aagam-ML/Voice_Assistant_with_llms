@@ -51,3 +51,5 @@ def remove_all_reminders(list_name):
         print(f"Error: {result.stderr}")
 
 remove_all_reminders("Personal")
+
+print("31st august update")
