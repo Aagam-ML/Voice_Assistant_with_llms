@@ -71,3 +71,4 @@ def ChangeAsPerTheNeed():
     print("Entered in the function")
     print("Here we will write the function that can change according to the need of user")
     print("Even after saying done we should give user the flexibity to work and change the reminder as per the need")
+    print("Logical solution is keep recording the voice and should keep the command like update so when they use update word it will change the reminder list")
