@@ -151,6 +151,7 @@ class Voice_Assistant():
             ]
         )
 
+
         llm = ChatCohere()
         output_parser = StrOutputParser()
         chain = prompt | llm | output_parser
@@ -165,10 +166,6 @@ class Voice_Assistant():
 Alexa = Voice_Assistant(task)
 Alexa.start()
 
-echo = Voice_Assistant(task)
-Alexa.start()
-siri = Voice_Assistant(task)
-Alexa.start()
 
 
 

@@ -66,17 +66,8 @@ def remove_all_reminders(list_name):
         print(f"Error: {result.stderr}")
 
 remove_all_reminders("Personal")
-def remove_all_reminders(list_name):
-    script = f'''
-    tell application "Reminders"
-        set reminderList to first list whose name is "{list_name}"
-        delete reminders of reminderList
-    end tell
-    '''
-    result = subprocess.run(['osascript', '-e', script], capture_output=True, text=True)
-    if result.returncode == 0:
-        print(f"Successfully removed all reminders from the '{list_name}' list.")
-    else:
-        print(f"Error: {result.stderr}")
 
-remove_all_reminders("Personal")
+def ChangeAsPerTheNeed():
+    print("Entered in the function")
+    print("Here we will write the function that can change according to the need of user")
+    print("Even after saying done we should give user the flexibity to work and change the reminder as per the need")
