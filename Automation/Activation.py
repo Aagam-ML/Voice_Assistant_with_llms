@@ -166,7 +166,7 @@ class Voice_Assistant():
 Alexa = Voice_Assistant(task)
 Alexa.start()
 
-
-
+bing = Voice_Assistant(task)
+bing.start()
 
 
