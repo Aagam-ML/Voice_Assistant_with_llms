@@ -54,7 +54,7 @@ class Voice_Assistant():
                 text = ""
                 print("Microphone is active. Speak now!")
                 while True:  # Infinite loop to keep the microphone on
-                    try:
+                    try:a
                         print("Listening...")
 
                         audio = recognizer.listen(source)  # Continuously listen
