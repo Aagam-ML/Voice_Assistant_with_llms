@@ -41,7 +41,7 @@ class Voice_Assistant():
                                input=True, frames_per_buffer=handle.frame_length)
         return self.pa, audio_stream  # R
 
-    def toggle_stream_off(self, pa, audio_stream):m
+    def toggle_stream_off(self, pa, audio_stream):
         print("triggered2")
         audio_stream.stop_stream()
         pa.close(audio_stream)
