@@ -34,7 +34,7 @@ class Voice_Assistant():
         self.task = task
 
     def clear_memory(self):
-        self.task = {}n
+        self.task = {}
         print(self.task)
     def toggle_stream_on(self):
         audio_stream = self.pa.open(rate=handle.sample_rate, channels=1, format=pyaudio.paInt16,
